@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.dao.mapper.JxActivityUrlMapper">
+  <resultMap id="BaseResultMap" type="com.code.model.JxActivityUrl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="activity_name" jdbcType="VARCHAR" property="activityName" />
+    <result column="batch_num" jdbcType="INTEGER" property="batchNum" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="click_count" jdbcType="INTEGER" property="clickCount" />
+    <result column="first_open_time" jdbcType="TIMESTAMP" property="firstOpenTime" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, phone, activity_id, activity_name, batch_num, url, ip, click_count, 
+    first_open_time, ctime
+  </sql>
+  <select id="selectByExample" parameterType="com.code.model.JxActivityUrlExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jx_activity_url
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jx_activity_url
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jx_activity_url
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.code.model.JxActivityUrlExample">
+    delete from jx_activity_url
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.code.model.JxActivityUrl">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_activity_url (user_id, phone, activity_id, 
+      activity_name, batch_num, url, 
+      ip, click_count, first_open_time, 
+      ctime)
+    values (#{userId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, 
+      #{activityName,jdbcType=VARCHAR}, #{batchNum,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{clickCount,jdbcType=INTEGER}, #{firstOpenTime,jdbcType=TIMESTAMP}, 
+      #{ctime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_activity_url (user_id, phone, activity_id,
+    activity_name, batch_num, url,
+    ctime)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.userId,jdbcType=INTEGER}, #{item.phone,jdbcType=VARCHAR}, #{item.activityId,jdbcType=INTEGER},
+      #{item.activityName,jdbcType=VARCHAR}, #{item.batchNum,jdbcType=INTEGER}, #{item.url,jdbcType=VARCHAR},
+      #{item.ctime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.JxActivityUrl">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_activity_url
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="activityName != null">
+        activity_name,
+      </if>
+      <if test="batchNum != null">
+        batch_num,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="clickCount != null">
+        click_count,
+      </if>
+      <if test="firstOpenTime != null">
+        first_open_time,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null">
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNum != null">
+        #{batchNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="clickCount != null">
+        #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="firstOpenTime != null">
+        #{firstOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.code.model.JxActivityUrlExample" resultType="java.lang.Long">
+    select count(*) from jx_activity_url
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jx_activity_url
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityName != null">
+        activity_name = #{record.activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNum != null">
+        batch_num = #{record.batchNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickCount != null">
+        click_count = #{record.clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstOpenTime != null">
+        first_open_time = #{record.firstOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jx_activity_url
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      activity_id = #{record.activityId,jdbcType=INTEGER},
+      activity_name = #{record.activityName,jdbcType=VARCHAR},
+      batch_num = #{record.batchNum,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      click_count = #{record.clickCount,jdbcType=INTEGER},
+      first_open_time = #{record.firstOpenTime,jdbcType=TIMESTAMP},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.JxActivityUrl">
+    update jx_activity_url
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null">
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNum != null">
+        batch_num = #{batchNum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="clickCount != null">
+        click_count = #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="firstOpenTime != null">
+        first_open_time = #{firstOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.JxActivityUrl">
+    update jx_activity_url
+    set user_id = #{userId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      activity_name = #{activityName,jdbcType=VARCHAR},
+      batch_num = #{batchNum,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      click_count = #{clickCount,jdbcType=INTEGER},
+      first_open_time = #{firstOpenTime,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 根据条件查询活动点击记录  -->
+  <select id="getQuertyRecordList" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" />
+  	FROM `jx_activity_url` 
+  	WHERE 
+  	<if test="startTime != null and startTime!=''">
+		<![CDATA[ctime >= #{startTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="endTime != null and endTime !=''">
+		<![CDATA[AND ctime <= #{endTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="phone != null and phone !=''">
+        AND phone = #{phone,jdbcType=VARCHAR}
+    </if>
+  	<if test="userId != null">
+        AND user_id = #{userId,jdbcType=INTEGER}
+    </if>
+  	<if test="activityId != null">
+        AND activity_id = #{activityId,jdbcType=INTEGER}
+    </if>
+    <if test="batchId != null">
+        AND batch_num = #{batchId,jdbcType=INTEGER}
+    </if>
+	ORDER BY id DESC
+	<if test="page != null">
+		LIMIT #{page},#{numPerPage}
+	</if>
+  </select>
+  <!-- 根据条件查询对应总条数 -->
+  <select id="getTotalRows" resultType="java.lang.Long">
+  	SELECT COUNT(id)
+  	FROM `jx_activity_url` 
+  	WHERE 
+  	<if test="startTime != null and startTime!=''">
+		<![CDATA[ctime >= #{startTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="endTime != null and endTime !=''">
+		<![CDATA[AND ctime <= #{endTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+  	<if test="userId != null">
+        AND user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="phone != null and phone !=''">
+        AND phone = #{phone,jdbcType=VARCHAR}
+    </if>
+  	<if test="activityId != null">
+        AND activity_id = #{activityId,jdbcType=INTEGER}
+    </if>
+    <if test="batchId != null">
+        AND batch_num = #{batchId,jdbcType=INTEGER}
+    </if>
+  </select>
+</mapper>

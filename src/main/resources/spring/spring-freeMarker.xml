@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc.xsd
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!-- 注意mvc:annotation-driven mvc:interceptors对应配置 为配合后台的awz 
+         和主站方式不一样-->
+    <bean id="utf8Charset" class="java.nio.charset.Charset"
+          factory-method="forName">
+        <constructor-arg value="UTF-8"/>
+    </bean>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg ref="utf8Charset"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <mvc:default-servlet-handler/>
+
+ 	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.code.interceptor.UserInterceptor">
+				
+			</bean>
+		</mvc:interceptor>
+		<!--  
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.llh.common.web.interceptor.LoginCookieInterceptor">
+				<property name="excludePaths" value="${exclude.path}" />
+			</bean>
+		</mvc:interceptor>
+		 
+		 -->
+	</mvc:interceptors>
+
+
+
+	<!-- FreeMarker视图解析 如返回student。。在这里配置后缀名htm和视图解析器。。 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="suffix" value=".htm" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeRequestAttributes" value="true" />
+		<!-- 不开启session -->
+		<property name="exposeSessionAttributes" value="false" />
+		<property name="requestContextAttribute" value="request"/>
+		<!-- 使用Spring提供的FreeMarker宏 -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+	</bean>
+	<!-- freemarker的配置 -->
+	<bean id="freemarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/mb" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<!-- 用来指定更新模版文件的间隔时间，相当于多长时间检测一下是否有必要重新加载模版文件， 0 表示每次都重新加载，否则为多少毫秒钟检测一下模版是否更改 
+					2147483647 -->
+				<prop key="template_update_delay">0</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="number_format">#.##</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<!--空值处理  -->
+				<prop key="classic_compatible">true</prop>
+				<prop key="boolean_format">true,false</prop>
+			</props>
+		</property>
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="moneyShow" value-ref="moneyFre"/>
+				<entry key="friendlyLength" value-ref="lengthFre"/>
+				<entry key="timeFormat" value-ref="timeFre"/>
+			</map>
+		</property>
+	</bean>
+
+ 
+	
+<!-- 自定义金额标签 --> 
+<bean id="moneyFre" class="com.code.freemarker.MoneyFre"></bean>
+<!-- 自定义长度标签 --> 
+<bean id="lengthFre" class="com.code.freemarker.LengthFre"></bean>
+<bean id="timeFre" class="com.code.freemarker.TimeFre"></bean>
+
+</beans>

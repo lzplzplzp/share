@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    $(function () {
+        setTextareaTab();
+        $("#applyWithDraw").click(function () {
+            alertMsg.confirm("您确认要申请提现吗！", {
+                okCall: function () {
+                    //$("#applyWithDraw").submit();
+                    window.location.href = "/account/comWithdrawBefore?txAmount=" + $("#txAmount").val();
+                }
+            });
+        });
+
+        $("#aapplyWithDraw1").click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!$("#comWithDrawInfoForm").valid()) {
+                return false;
+            }
+            var balance = $("#balance").text();
+
+            var bal = parseFloat(balance);
+            var comBal = $("#txAmount").val();
+            if (comBal > bal) {
+                alertMsg.error("提现金额不能超过可用余额!");
+                return false;
+            }
+            // 赋值变量
+            $("#aapplyWithDraw").attr('href', '/account/comWithdrawBefore?txAmount=' + comBal).attr('target', '_blank')[0].click();
+
+        });
+    });
+    function submitForm(obj) {
+        return validateCallback(obj, navTabAjaxDone);
+    }
+</script>
+<div class="pageFormContent nowrap" layouth="56">
+    <form id="comWithDrawInfoForm" name="mobileForm" action="/account/comWithdrawBefore" method="get"
+          class="pageForm required-validate">
+        <dl>
+            <dt>公司名称：</dt>
+            <dd>${jxCompany.name}</dd>
+        </dl>
+        <dl>
+            <dt>电子帐号：</dt>
+            <dd>${jxCompany.account}</dd>
+        </dl>
+        <dl>
+            <dt>手机号:</dt>
+            <dd>${jxCompany.mobile}</dd>
+        </dl>
+        <dl>
+            <dt>银行卡号:</dt>
+            <dd>${jxCompany.bankCard}</dd>
+        </dl>
+        <dl>
+            <dt>可用余额:</dt>
+            <dd id="balance">${balance}</dd>
+        </dl>
+        <dl>
+            <dt>账面余额:</dt>
+            <dd>${currBal}</dd>
+        </dl>
+        <dl>
+            <dt>提现金额:</dt>
+            <dd><input name="txAmount" id="txAmount" value="" type="text" class="required number" minlength="1"
+                       maxlength="10"/></dd>
+        </dl>
+        <dl>
+            <dt>&nbsp;</dt>
+            <dd>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="button" id="aapplyWithDraw1">申请提现</button>
+                        <a id="aapplyWithDraw" style="position: absolute; opacity:0;">申请提现</a>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </form>
+</div>

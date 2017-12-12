@@ -1,0 +1,40 @@
+<style type="text/css">
+.staticPageList table a{color:#028BEB; margin:0 5px;}
+</style>
+<div class="pageContent staticPageList">
+	<#if result ??  && (result?size > 0)>	
+	<div id="w_list_print">
+	<table class="list autowrap"   width="100%" layoutH="115">
+		<thead>
+			<tr>
+				<td width="5%">日期</td>
+				<td width="5%">安盈宝需还金额</th>
+				<td width="5%">安盈宝未还金额</th>
+				<td width="5%">月光宝需还金额</th>
+				<td width="5%">月光宝未还金额</th>
+				<td width="5%">融资方未还总金额</th>
+				<td width="5%">操作</th>	
+			</tr>
+		</thead>
+		<tbody>
+			<#list result as pr>
+			<tr target="staticPageId">
+				<td height="24">${(pr.day?date)}</td>
+				<td >${(pr.aybNeedRepayAmount)}</td>
+				<td >${(pr.aybRepayedAmount)}</td>
+				<td >${(pr.ygbNeedRepayAmount)}</td>
+				<td >${(pr.ygbRepayedAmount)}</td>
+				<td >${(pr.rzNeedRepayAmount)}</td>
+				<td>
+					<a href="${contextPath}/account/getRepayDetailsByDate?endTimeStart=${(pr.day?string('yyyy-MM-dd'))}&endTimeEnd=${(pr.secondDay?string('yyyy-MM-dd'))}" target="navTab">查看</a>
+				</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	</div>
+	<!-- <#include "/common/pagination.htm"/> -->
+		 <#else>
+                 <br>   暂无数据
+				</#if>
+</div>

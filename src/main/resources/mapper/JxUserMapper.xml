@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.dao.mapper.JxUserMapper">
+  <resultMap id="BaseResultMap" type="com.code.model.JxUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="ip" jdbcType="CHAR" property="ip" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_old" jdbcType="INTEGER" property="isOld" />
+    <result column="id_card1" jdbcType="CHAR" property="idCard1" />
+    <result column="id_card2" jdbcType="CHAR" property="idCard2" />
+    <result column="bank_card1" jdbcType="VARCHAR" property="bankCard1" />
+    <result column="bank_card2" jdbcType="VARCHAR" property="bankCard2" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="last_open_time" jdbcType="TIMESTAMP" property="lastOpenTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="account_balance" jdbcType="DECIMAL" property="accountBalance" />
+    <result column="old_buy_amount" jdbcType="DECIMAL" property="oldBuyAmount" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="birthday" jdbcType="CHAR" property="birthday" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, phone, password, ip, status, is_old, id_card1, id_card2, bank_card1, bank_card2, 
+    bank_name, bank_id, channel, last_open_time, create_time, account_id, account_balance, 
+    old_buy_amount, real_name, version, birthday
+  </sql>
+  <select id="selectByExample" parameterType="com.code.model.JxUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jx_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jx_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jx_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.code.model.JxUserExample">
+    delete from jx_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.code.model.JxUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_user (phone, password, ip, status, 
+      is_old, id_card1, id_card2, 
+      bank_card1, bank_card2, bank_name, 
+      bank_id, channel, last_open_time, 
+      create_time, account_id, account_balance, 
+      old_buy_amount, real_name, version, 
+      birthday)
+    values (#{phone,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{ip,jdbcType=CHAR}, #{status,jdbcType=INTEGER}, 
+      #{isOld,jdbcType=INTEGER}, #{idCard1,jdbcType=CHAR}, #{idCard2,jdbcType=CHAR}, 
+      #{bankCard1,jdbcType=VARCHAR}, #{bankCard2,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{bankId,jdbcType=INTEGER}, #{channel,jdbcType=VARCHAR}, #{lastOpenTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{accountId,jdbcType=VARCHAR}, #{accountBalance,jdbcType=DECIMAL}, 
+      #{oldBuyAmount,jdbcType=DECIMAL}, #{realName,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.JxUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isOld != null">
+        is_old,
+      </if>
+      <if test="idCard1 != null">
+        id_card1,
+      </if>
+      <if test="idCard2 != null">
+        id_card2,
+      </if>
+      <if test="bankCard1 != null">
+        bank_card1,
+      </if>
+      <if test="bankCard2 != null">
+        bank_card2,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="bankId != null">
+        bank_id,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="lastOpenTime != null">
+        last_open_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="accountBalance != null">
+        account_balance,
+      </if>
+      <if test="oldBuyAmount != null">
+        old_buy_amount,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isOld != null">
+        #{isOld,jdbcType=INTEGER},
+      </if>
+      <if test="idCard1 != null">
+        #{idCard1,jdbcType=CHAR},
+      </if>
+      <if test="idCard2 != null">
+        #{idCard2,jdbcType=CHAR},
+      </if>
+      <if test="bankCard1 != null">
+        #{bankCard1,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard2 != null">
+        #{bankCard2,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null">
+        #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOpenTime != null">
+        #{lastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBalance != null">
+        #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="oldBuyAmount != null">
+        #{oldBuyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.code.model.JxUserExample" resultType="java.lang.Long">
+    select count(*) from jx_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jx_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=CHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=CHAR},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.isOld != null">
+        is_old = #{record.isOld,jdbcType=INTEGER},
+      </if>
+      <if test="record.idCard1 != null">
+        id_card1 = #{record.idCard1,jdbcType=CHAR},
+      </if>
+      <if test="record.idCard2 != null">
+        id_card2 = #{record.idCard2,jdbcType=CHAR},
+      </if>
+      <if test="record.bankCard1 != null">
+        bank_card1 = #{record.bankCard1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCard2 != null">
+        bank_card2 = #{record.bankCard2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null">
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankId != null">
+        bank_id = #{record.bankId,jdbcType=INTEGER},
+      </if>
+      <if test="record.channel != null">
+        channel = #{record.channel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastOpenTime != null">
+        last_open_time = #{record.lastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountBalance != null">
+        account_balance = #{record.accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oldBuyAmount != null">
+        old_buy_amount = #{record.oldBuyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jx_user
+    set id = #{record.id,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=CHAR},
+      password = #{record.password,jdbcType=CHAR},
+      ip = #{record.ip,jdbcType=CHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      is_old = #{record.isOld,jdbcType=INTEGER},
+      id_card1 = #{record.idCard1,jdbcType=CHAR},
+      id_card2 = #{record.idCard2,jdbcType=CHAR},
+      bank_card1 = #{record.bankCard1,jdbcType=VARCHAR},
+      bank_card2 = #{record.bankCard2,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      bank_id = #{record.bankId,jdbcType=INTEGER},
+      channel = #{record.channel,jdbcType=VARCHAR},
+      last_open_time = #{record.lastOpenTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      account_id = #{record.accountId,jdbcType=VARCHAR},
+      account_balance = #{record.accountBalance,jdbcType=DECIMAL},
+      old_buy_amount = #{record.oldBuyAmount,jdbcType=DECIMAL},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      birthday = #{record.birthday,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.JxUser">
+    update jx_user
+    <set>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isOld != null">
+        is_old = #{isOld,jdbcType=INTEGER},
+      </if>
+      <if test="idCard1 != null">
+        id_card1 = #{idCard1,jdbcType=CHAR},
+      </if>
+      <if test="idCard2 != null">
+        id_card2 = #{idCard2,jdbcType=CHAR},
+      </if>
+      <if test="bankCard1 != null">
+        bank_card1 = #{bankCard1,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard2 != null">
+        bank_card2 = #{bankCard2,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null">
+        bank_id = #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOpenTime != null">
+        last_open_time = #{lastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBalance != null">
+        account_balance = #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="oldBuyAmount != null">
+        old_buy_amount = #{oldBuyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.JxUser">
+    update jx_user
+    set phone = #{phone,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      ip = #{ip,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER},
+      is_old = #{isOld,jdbcType=INTEGER},
+      id_card1 = #{idCard1,jdbcType=CHAR},
+      id_card2 = #{idCard2,jdbcType=CHAR},
+      bank_card1 = #{bankCard1,jdbcType=VARCHAR},
+      bank_card2 = #{bankCard2,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=VARCHAR},
+      last_open_time = #{lastOpenTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      account_balance = #{accountBalance,jdbcType=DECIMAL},
+      old_buy_amount = #{oldBuyAmount,jdbcType=DECIMAL},
+      real_name = #{realName,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

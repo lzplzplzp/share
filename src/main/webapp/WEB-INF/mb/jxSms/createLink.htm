@@ -1,0 +1,139 @@
+<!--<style type="text/css">
+div{ margin-bottom: 10px;}
+.sel_btn{
+	height: 21px;
+	line-height: 24px;
+	padding: 0 11px;
+	border: 1px #26bbdb solid;
+	border-radius: 3px;
+	/*color: #fff;*/
+	display: inline-block;
+	text-decoration: none;
+	font-size: 12px;
+	outline: none;
+}
+</style>-->
+<div class="pageHeader">
+	<form id="createLinkForm" method="post" class="pageForm required-validate" enctype="multipart/form-data">
+
+			<div>
+				<label for="excelFile">上传数据并校验：</label>
+					<input id="excelFile" type="file" value="" name="excelFile" class="add_file"
+						   onchange="excelSubmit(this)" multiple="multiple"/>
+					<div id="perviewImage">
+					</div>
+					<span id="tip_excelFile" style="color:red"></span>
+
+			</div>
+			<div>
+				<label for="activityId">本次上传活动ID：</label>
+				<input name="activityId" id="activityId" type="text"  style="width: 70px; color: #666666;" />
+				<label for="batchNumber">本次上传批次号：</label>
+				<input name="batchNumber" type="text" id="batchNumber"  style="width: 70px; color: #666666;margin-bottom:10px;"  /><br/>
+				<span id="tip_excelUrl" style="color:red"></span>
+			</div>
+
+			<div>
+				<input type="button" name="submitButton" value="生成短链接" id="submitButton" style="margin-right: 10px;"/>
+				<a href='/sms/downloadLinkExcel' target="navTab" class="sel_btn">查询已生成记录</a>
+			</div>
+
+	</form>
+	<input type="hidden" id="excelPath" value=""/>
+	<input type="hidden" id="excelName" value=""/>
+	<input type="hidden" id="jxActivityUrlBuildId" value=""/>
+</div>
+<script type="text/javascript" src="/js/jquery/jquery.form.js"></script>
+<script type="text/javascript" src="/js/ajaxfileupload.js"></script>
+<script>
+$(function(){
+	$("#submitButton").on('click',function(){
+        var activityId=$("#activityId").val();
+        var batchNumber=$("#batchNumber").val();
+        var path= $("#excelPath").val();
+        var name= $("#excelName").val();
+        var jxActivityUrlBuildId=$("#jxActivityUrlBuildId").val();
+		if(!activityId){
+            alert("请输入本次上传文件的活动ID！");
+            return false;
+		}
+        if(!batchNumber){
+            alert("请输入本次上传文件的批次号！");
+            return false;
+        }
+        if(!path || !name|| !jxActivityUrlBuildId){
+            alert("上传参数丢失！");
+            return false;
+		}
+        $.ajax({
+            type: "POST",
+            url: "/sms/analysisExcel",
+            data: { activityId:activityId,batchNum:batchNumber,path:path,fileName:name,jxActivityUrlBuildId:jxActivityUrlBuildId },
+            cache: false,
+            success: function(data) {
+                if(data.msg=="success"){//
+                    $("#tip_excelUrl").html("上传校验成功！生成处理中...具体时间已收到短信为准！");
+				}else{
+                    $("#tip_excelUrl").html(data.msg);
+				}
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#tip_excelUrl").html("操作失败，请检查网络后重试");
+            }
+        });
+        return false;
+	})
+})
+function excelSubmit(obj) {
+    var excelFileVal = $.trim($("#excelFile").val());
+    if (excelFileVal == "") {
+        $('#excelFileVal').focus();
+        $("#tip_excelFile").html("请选择excel文件");
+        return false;
+    }
+    excelFileVal = excelFileVal.toLowerCase();
+
+    if (excelFileVal.indexOf('.xlsx') == -1 ) {
+        $('#excelFile').focus();
+        $("#tip_excelFile").html("上传格式不正确！");
+        return false;
+    }
+
+    var target = obj;
+    var fileSize = 0;
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+    if (isIE && !target.files) {
+    } else {
+        fileSize = target.files[0].size;
+    }
+    var size = fileSize / 1024;
+    if (size > 100 * 1024) {
+        $('#excelFile').focus();
+        $("#tip_excelFile").html("大小不能大于100M！！");
+        return false;
+    }
+    var url = "/back/buildActivityUrl/uploadExcel";
+	$.ajaxFileUpload({
+		url: url,
+		secureuri: false,
+		dataType: "json",
+		type: "post",
+		fileElementId: "excelFile",
+		success: function (data) {
+			if (data.msg == "success") {
+				$("#tip_excelFile").html(target.files[0].name + "上传成功！");
+                $("#excelPath").val(data.data.absoluteUrl);
+                $("#excelName").val(data.data.fileName);
+                $("#jxActivityUrlBuildId").val(data.data.jxActivityUrlBuildId);
+			} else {
+				$("#tip_excelFile").html(data.msg);
+			}
+
+		},
+		error: function () {
+            $("#tip_excelFile").html("操作失败，请检查网络后重试");
+		}
+	});
+}
+
+</script>

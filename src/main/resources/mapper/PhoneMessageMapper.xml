@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.dao.mapper.PhoneMessageMapper">
+  <resultMap id="BaseResultMap" type="com.code.model.PhoneMessage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="channel_id" jdbcType="TINYINT" property="channelId" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, phone, content, ctime, status,channel_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xjn_phone_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xjn_phone_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.code.model.PhoneMessage"  useGeneratedKeys="true" keyProperty="id" >
+    insert into xjn_phone_message (id, phone, content, 
+      ctime, status,channel_id)
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{channelId,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.PhoneMessage">
+    insert into xjn_phone_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.PhoneMessage">
+    update xjn_phone_message
+    <set>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.PhoneMessage">
+    update xjn_phone_message
+    set phone = #{phone,jdbcType=CHAR},
+      content = #{content,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+	  channel_id = #{channelId,jdbcType=TINYINT},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

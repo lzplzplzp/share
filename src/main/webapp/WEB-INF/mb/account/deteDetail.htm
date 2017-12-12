@@ -1,0 +1,76 @@
+<style type="text/css">
+.staticPageList table a{color:#028BEB; margin:0 5px;}
+</style>
+<div class="pageContent staticPageList">
+	<#if result ??  && (result?size > 0)>	
+	<div id="w_list_print">
+		<table class="list autowrap" width="100%" layoutH="115">
+			<thead>
+				<tr>
+				  <td width="4%">ID</td>
+			      <td width="6%">类型</td>
+			      <td width="8%">项目名称</td>
+			      <td width="8%">票号</td>
+			      <td width="5%">票面金额</td>
+			      <td width="5%">融资总金额</td>
+			      <td width="5%">当前融资金额</td>
+			      <td width="5%">创建时间</td>
+				  <td width="6%">发布上线时间</td>
+			      <td width="5%">销售开始时间</td>
+			      <td width="5%">项目到期时间</td> 
+			      <td width="6%">票据兑付时间</td>
+			      <td width="3%">项目期限</td>
+			      <td width="6%">状态</td>	
+				</tr>
+			</thead>
+			<tbody>
+				<#list result as obj>
+					<tr>
+						<td>${obj.id}</td>
+						<td>
+							<#if obj.productType==1>安盈宝</#if>
+							<#if obj.productType==2>票据债权</#if>
+							<#if obj.productType==3>月光宝</#if>
+							<#if obj.productType==4>车贷-月光宝</#if>
+							<#if obj.productType==5>车盈宝</#if>
+							<#if obj.productType==6>机票</#if>
+							<#if obj.productType==7>会唐网</#if>
+							<#if obj.productType==8>应收保理</#if>
+							<#if obj.productType==9>课栈</#if>
+							<#if obj.productType==10>旅游</#if>
+							<#if obj.productType==11>汽车</#if>
+							<#if obj.productType==12>婚纱摄影</#if>
+							<#if obj.productType==13>石化</#if>
+						</td>
+						<td>${obj.name}</td>
+						<td>
+							<#if obj.ticketNumber==null>无
+							<#else>${obj.ticketNumber}</#if>
+						</td>
+						<td>${obj.parAmount}</td>
+						<td>${obj.totalAmount}</td>
+						<td>${obj.currentAmount}</td>
+						<td>${obj.ctime?date}</td>
+						<td>${obj.pubTime?date}</td>
+						<td>${obj.sellTime?date}</td>
+						<td>${obj.endTime?date}</td>
+						<td>${obj.repayTime?date}</td>
+						<td>${obj.length}</td>
+						<td>
+							<#if obj.saleStatus==0>正在销售
+							<#elseif obj.saleStatus==1>待销售
+							<#elseif obj.saleStatus==2>售罄
+							<#elseif obj.saleStatus==3>起息
+							<#elseif obj.saleStatus==4>已还款
+							<#else>还款中
+							</#if>
+						</td>
+					</tr>
+				</#list>
+			</tbody>
+		</table>
+	</div>
+		 <#else>
+         <br>   暂无数据
+	</#if>
+</div>

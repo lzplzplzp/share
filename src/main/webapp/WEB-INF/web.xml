@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>manage</display-name> 
+	<context-param> 
+	    <param-name>contextConfigLocation</param-name> 
+	    <param-value>classpath*:/spring/applicationContext.xml</param-value>  
+	</context-param>
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.json</url-pattern>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.ico</url-pattern>
+		<url-pattern>*.swf</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.jpeg</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.bmp</url-pattern>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.htm</url-pattern>
+		<url-pattern>*.svl</url-pattern>
+		<url-pattern>*.xml</url-pattern>
+	</servlet-mapping>
+    <filter>
+        <filter-name>SpringCharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SpringCharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<servlet>
+		<servlet-name>springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>springMVC</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+
+	<!-- 图片验证码开始 -->
+	 <servlet>
+         <servlet-name>ImageServlet</servlet-name>
+         <servlet-class>com.code.servlet.ImageServlet</servlet-class>
+     </servlet>
+	
+      <servlet-mapping>
+            <servlet-name>ImageServlet</servlet-name>
+            <url-pattern>/captcha.svl</url-pattern>
+       </servlet-mapping>
+	<!-- 图片验证码结束 -->
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	 <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
+    <error-page>
+		<error-code>403</error-code>
+		<location>/403.htm</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.htm</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.htm</location>
+	</error-page>
+
+</web-app>

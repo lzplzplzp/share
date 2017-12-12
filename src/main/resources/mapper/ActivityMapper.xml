@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.code.dao.mapper.ActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.code.model.Activity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="app_show_count" property="appShowCount" jdbcType="INTEGER" />
+    <result column="wx_show_count" property="wxShowCount" jdbcType="INTEGER" />
+    <result column="pub_user_count" property="pubUserCount" jdbcType="INTEGER" />
+    <result column="join_user_count" property="joinUserCount" jdbcType="INTEGER" />
+    <result column="download_count" property="downloadCount" jdbcType="INTEGER" />
+    <result column="reg_count" property="regCount" jdbcType="INTEGER" />
+    <result column="buy_user_count" property="buyUserCount" jdbcType="INTEGER" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="screen_version" property="screenVersion" jdbcType="VARCHAR" />
+    <result column="is_newbie" property="isNewbie" jdbcType="TINYINT" />
+    <result column="priority_top" property="priorityTop" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.code.model.Activity" extends="BaseResultMap" >
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, name, img, app_show_count, wx_show_count, pub_user_count, join_user_count, 
+    download_count, reg_count, buy_user_count, priority, status, ctime, begin_time, end_time,channel,
+    screen_version, is_newbie, priority_top
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xjn_activity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xjn_activity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.code.model.Activity" useGeneratedKeys="true" keyProperty="id" >
+    insert into xjn_activity (id, url, name, 
+      img, app_show_count, wx_show_count, 
+      pub_user_count, join_user_count, download_count, 
+      reg_count, buy_user_count, priority, 
+      status, ctime, begin_time, 
+      end_time, detail,channel,screen_version,is_newbie, priority_top)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{appShowCount,jdbcType=INTEGER}, #{wxShowCount,jdbcType=INTEGER}, 
+      #{pubUserCount,jdbcType=INTEGER}, #{joinUserCount,jdbcType=INTEGER}, #{downloadCount,jdbcType=INTEGER}, 
+      #{regCount,jdbcType=INTEGER}, #{buyUserCount,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR},#{channel,jdbcType=VARCHAR},#{screenVersion,jdbcType=VARCHAR},
+      #{isNewbie,jdbcType=TINYINT},#{priorityTop,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.Activity" useGeneratedKeys="true" keyProperty="id" >
+    insert into xjn_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="appShowCount != null" >
+        app_show_count,
+      </if>
+      <if test="wxShowCount != null" >
+        wx_show_count,
+      </if>
+      <if test="pubUserCount != null" >
+        pub_user_count,
+      </if>
+      <if test="joinUserCount != null" >
+        join_user_count,
+      </if>
+      <if test="downloadCount != null" >
+        download_count,
+      </if>
+      <if test="regCount != null" >
+        reg_count,
+      </if>
+      <if test="buyUserCount != null" >
+        buy_user_count,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="beginTime != null" >
+        begin_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+       <if test="screenVersion != null" >
+        screen_version,
+      </if>
+      <if test="isNewbie != null" >
+        is_newbie,
+      </if>
+      <if test="priorityTop != null" >
+        priority_top,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="appShowCount != null" >
+        #{appShowCount,jdbcType=INTEGER},
+      </if>
+      <if test="wxShowCount != null" >
+        #{wxShowCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubUserCount != null" >
+        #{pubUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="joinUserCount != null" >
+        #{joinUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="downloadCount != null" >
+        #{downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="regCount != null" >
+        #{regCount,jdbcType=INTEGER},
+      </if>
+      <if test="buyUserCount != null" >
+        #{buyUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+       <if test="screenVersion != null" >
+         #{screenVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewbie != null" >
+        #{isNewbie,jdbcType=TINYINT},
+      </if>
+      <if test="priorityTop != null" >
+        #{priorityTop,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.Activity" >
+    update xjn_activity
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="appShowCount != null" >
+        app_show_count = #{appShowCount,jdbcType=INTEGER},
+      </if>
+      <if test="wxShowCount != null" >
+        wx_show_count = #{wxShowCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubUserCount != null" >
+        pub_user_count = #{pubUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="joinUserCount != null" >
+        join_user_count = #{joinUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="downloadCount != null" >
+        download_count = #{downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="regCount != null" >
+        reg_count = #{regCount,jdbcType=INTEGER},
+      </if>
+      <if test="buyUserCount != null" >
+        buy_user_count = #{buyUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="screenVersion != null" >
+        screen_version = #{screenVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewbie != null" >
+        is_newbie = #{isNewbie,jdbcType=TINYINT},
+      </if>
+      <if test="priorityTop != null" >
+        priority_top = #{priorityTop,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.code.model.Activity" >
+    update xjn_activity
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      app_show_count = #{appShowCount,jdbcType=INTEGER},
+      wx_show_count = #{wxShowCount,jdbcType=INTEGER},
+      pub_user_count = #{pubUserCount,jdbcType=INTEGER},
+      join_user_count = #{joinUserCount,jdbcType=INTEGER},
+      download_count = #{downloadCount,jdbcType=INTEGER},
+      reg_count = #{regCount,jdbcType=INTEGER},
+      buy_user_count = #{buyUserCount,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      screen_version = #{screenVersion,jdbcType=VARCHAR},
+      is_newbie = #{isNewbie,jdbcType=TINYINT},
+      priority_top = #{priorityTop,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.Activity" >
+    update xjn_activity
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      app_show_count = #{appShowCount,jdbcType=INTEGER},
+      wx_show_count = #{wxShowCount,jdbcType=INTEGER},
+      pub_user_count = #{pubUserCount,jdbcType=INTEGER},
+      join_user_count = #{joinUserCount,jdbcType=INTEGER},
+      download_count = #{downloadCount,jdbcType=INTEGER},
+      reg_count = #{regCount,jdbcType=INTEGER},
+      buy_user_count = #{buyUserCount,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      channel = #{channel,jdbcType=VARCHAR},
+      screen_version = #{screenVersion,jdbcType=VARCHAR},
+      is_newbie = #{isNewbie,jdbcType=TINYINT},
+      priority_top = #{priorityTop,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="addAppShowCount" parameterType="java.lang.Integer">
+      update xjn_activity set app_show_count = app_show_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addPubUserCount">
+      update xjn_activity set pub_user_count = pub_user_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addwxShowCount" >
+      update xjn_activity set wx_show_count = wx_show_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addJoinUserCount">
+      update xjn_activity set join_user_count = join_user_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addDownlodaCount">
+      update xjn_activity set download_count = download_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addBuyUserCount">
+      update xjn_activity set buy_user_count = buy_user_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <update id="addRegCount">
+      update xjn_activity set reg_count = reg_count + 1 where id=#{id,jdbcType=INTEGER}
+  </update>
+  <select id="getActivitys"  resultMap="BaseResultMap">
+      select    <include refid="Base_Column_List" /> from xjn_activity where status = 2 order by priority desc;
+  </select>
+  <select id="getActivitys2"  resultMap="BaseResultMap">
+      select    <include refid="Base_Column_List" /> from xjn_activity where status = 2 or status = 1 order by priority desc;
+  </select>
+  
+  
+   <select id="backFindByPage" resultMap="BaseResultMap">
+		select 
+   				 <include refid="Base_Column_List" />
+    				,
+    			<include refid="Blob_Column_List" />
+		from xjn_activity t
+		
+		<include refid="condition"/>
+		<include refid="sorting"/>
+		<include refid="pagination"/>
+	</select>
+	 <sql id="condition">
+		<trim prefix="where" prefixOverrides="and">
+			  
+		</trim>
+	</sql>
+	<sql id="sorting">
+		 ORDER BY id DESC 
+	</sql>
+	
+	<sql id="pagination">
+		<if test="pageStart != null">
+			 LIMIT #{pageStart},#{pageSize} 
+		</if>
+	</sql>
+	<select id="backFindPageCount" resultType="long">
+		select count(*) 
+		from xjn_activity t
+		<include refid="condition"/>
+		<include refid="sorting"/>
+	</select>
+	<select id="getAppShowCount" resultType="java.lang.Integer">
+		select t.app_show_count from xjn_activity t
+		where id=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getBannerActivityList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+      ,
+    <include refid="Blob_Column_List"/>
+    from xjn_activity t
+		where (t.status = 2
+		<if test="isTest!=null and isTest==1"> or t.status = 1 </if> 
+		<if test="from!=null and from=='activity'"> or t.status = 0</if>)
+		and <![CDATA[t.priority > 0]]>
+	    order by t.status desc, t.priority desc, begin_time desc
+	</select>
+	
+	<select id="getTopActivityList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+      ,
+    <include refid="Blob_Column_List"/>
+    from xjn_activity t
+		where (t.status = 2
+		<if test="isTest!=null and isTest==1"> or t.status = 1 </if>)
+		and <![CDATA[t.priority_top > 0]]>
+	    order by t.status desc, t.priority_top desc, begin_time desc
+	</select>
+	
+	<select id="getValidateActivityList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    from xjn_activity t where t.status = 2
+	and <![CDATA[ t.end_time > #{endTime,jdbcType=TIMESTAMP} ]]>
+	</select>
+
+  <select id="getActivityList" resultMap="BaseResultMap">
+        SELECT DISTINCT `id`,TRIM(`name`) AS `name` FROM `xjn_activity`
+  </select>
+  	<!-- 获取用户可用的未点击活动 -->
+  	<select id="getValidateUnKnownActivityList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    from xjn_activity t where t.status = 2
+	and <![CDATA[ t.end_time > #{endTime,jdbcType=TIMESTAMP} ]]>
+	and <![CDATA[ t.begin_time <= #{beginTime,jdbcType=TIMESTAMP} ]]>
+	and <![CDATA[ t.begin_time > #{ctime,jdbcType=TIMESTAMP} ]]>
+	</select>
+
+</mapper>

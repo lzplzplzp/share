@@ -1,0 +1,131 @@
+<style type="text/css">
+.staticPageList table a{color:#028BEB; margin:0 5px;}
+</style>
+<div class="pageHeader">
+	<caption>
+       <#if hint??>
+           <div class="alert alert-warning alert-dismissable" style="margin-bottom:0px;">
+               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+               <strong>${hint}</strong>
+           </div>
+       </#if>
+    </caption>
+	<form id="pagerForm" name="form1" onsubmit="return navTabSearch(this);" rel="quertyRecord" action="/sms/quertyRecord" method="post" onsubmit="return submitForm()">
+		<input type="hidden" name="page" value="${page}"/>
+		<input type="hidden" name="numPerPage" value="${numPerPage}"/>
+		<div >
+			<div class="searchItem">
+				<ul>
+					<li><label>开始时间：</label>
+						<input id="startTime" type="text" name="startTime" class="date textInput valid required" datefmt="yyyy-MM-dd" mindate="2000-01-01" maxdate="2020-12-31" value="${startTime}">
+					</li>
+					<li><label>结束时间：</label>
+						<input id="endTime" type="text" name="endTime" class="date textInput valid required" datefmt="yyyy-MM-dd" mindate="2000-01-01" maxdate="2020-12-31" value="${endTime}">
+					</li>
+					<li>
+						<label>手机号:</label>
+						<input name="phone" type="text"  value="${phone}">
+					</li>
+					<li>
+						<label>用户ID:</label>
+						<input name="userId" type="text" size="6" value="${userId}">
+					</li>
+					<li>
+						<label>活动ID:</label>
+						<input name="activityId" type="text" size="1" value="${activityId}">
+					</li>
+					<li>
+						<label>批次号:</label>
+						<input name="batchId" type="text" size="1" value="${batchId}">
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="submit" target="navTab" rel="quertyRecord">查询</button>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" target="navTab" rel="exportExcel" onclick="exportRecord()">导出查询列表</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="pageContent staticPageList">
+	<#if result ??  && (result?size > 0)>	
+	<div id="w_list_print">
+	<table class="list autowrap"   width="100%" layoutH="115">
+		<thead>
+			<tr>
+				<th >用户ID</th>
+				<th >电话</th>
+				<th >活动ID</th>
+				<th >活动名称</th>
+				<th >批次号</th>
+				<th >点开次数</th>
+				<th >首次打开链接时间</th>
+				<th >短链接生成时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list result as obj>
+			<tr target="staticPageId">
+				<td>${obj.userId}</td>
+				<td>${obj.phone}</td>
+				<td>${obj.activityId}</td>
+				<td>${obj.activityName}</td>
+				<td>${obj.batchNum}</td>
+				<td>${obj.clickCount}</td>
+				<td>${(obj.firstOpenTime?string('yyyy-MM-dd HH:mm:ss'))!''}</td>
+				<td>${(obj.ctime?string('yyyy-MM-dd HH:mm:ss'))!''}</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	<#include "/common/pagination.htm"/>
+	</div>
+                 <br>   暂无数据
+				</#if>
+	</div>
+</div>
+
+<script>
+	function exportRecord() {
+		var startTime = $.trim($("#startTime").val());
+		if(startTime == '') {
+			alert("请选择开始时间");
+			return false;
+		}
+		var url = "/sms/exportRecord?startTime="+startTime;
+		var endTime = $.trim($("#endTime").val());
+
+		var phone = $.trim($("#phone").val());
+		var userId = $.trim($("#userId").val());
+		var activityId = $.trim($("#activityId").val());
+		var batchNum = $.trim($("#batchNum").val());
+		if(endTime != '') {
+			url+="&endTime="+endTime;
+		}
+
+		if(phone != '') {
+			url+="&phone="+phone;
+		}
+		if(userId != '') {
+			url+="&userId="+userId;
+		}
+		if(activityId != '') {
+			url+="&status="+activityId;
+		}
+		if(activityId != '') {
+			url+="&batchNum="+batchNum;
+		}
+
+		window.open(url);
+	}
+</script>

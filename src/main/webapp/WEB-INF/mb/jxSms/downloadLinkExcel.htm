@@ -1,0 +1,93 @@
+<style type="text/css">
+	.staticPageList table a{color:#028BEB; margin:0 5px;}
+</style>
+<div class="pageHeader">
+	<caption>
+		<#if hint??>
+			<div class="alert alert-warning alert-dismissable" style="margin-bottom:0px;">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>${hint}</strong>
+			</div>
+		</#if>
+	</caption>
+	<form id="pagerForm" name="form1" onsubmit="return navTabSearch(this);" rel="quertyRecord" action="/sms/downloadLinkExcel" method="post" onsubmit="return submitForm()">
+		<input type="hidden" name="page" value="${page}"/>
+		<input type="hidden" name="numPerPage" value="${numPerPage}"/>
+		<div >
+			<div class="searchItem">
+				<ul>
+					<li>
+						<label>活动ID:</label>
+						<input name="activityId" type="text"  value="${activityId}">
+					</li>
+					<li>
+						<label>批次号:</label>
+						<input name="batchNum" type="text"  value="${batchNum}">
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="submit" target="navTab" rel="quertyRecord">查询</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="pageContent staticPageList">
+	<#if result ??  && (result?size > 0)>
+		<div id="w_list_print">
+			<table class="list autowrap"   width="100%" layoutH="115">
+				<thead>
+				<tr>
+					<th >创建人名称</th>
+					<th >创建时间</th>
+					<th >活动ID</th>
+					<th >批次号</th>
+					<th >生成后文件名</th>
+					<th >状态</th>
+					<th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<#list result as obj>
+					<tr target="staticPageId">
+						<td>${obj.cuserName}</td>
+						<td>${(obj.ctime?string('yyyy-MM-dd hh:mm:ss'))!''}</td>
+						<td>${obj.activityId}</td>
+						<td>${obj.batchNum}</td>
+						<td>${obj.buileFileName}</td>
+						<td>
+							<#if obj.status=0>
+								未处理
+							</#if>
+							<#if obj.status=1>
+								处理中
+							</#if>
+							<#if obj.status=2>
+								处理完成
+							</#if>
+							<#if obj.status=3>
+								处理失败
+							</#if>
+						</td>
+						<td>
+							<#if (obj.buileFilePath)??>
+								<a href="/back/buildActivityUrl/downLoad?type=1&fileName=${(obj.buileFileName)}" target="_blank"><font color="blue">下载处理后文件</font></a>
+							</#if>
+							<#if (obj.filePath)??>
+								<a href="/back/buildActivityUrl/downLoad?type=2&fileName=${(obj.fileNewName)}" target="_blank"><font color="blue">下载原文件</font></a>
+							</#if>
+						</td>
+					</tr>
+				</#list>
+				</tbody>
+			</table>
+		</div>
+		<#include "/common/pagination.htm"/>
+		<#else>
+			<br>   暂无数据
+	</#if>
+</div>

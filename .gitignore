@@ -1,0 +1,13 @@
+.settings
+/.classpath
+/.project
+target
+/.idea
+/.tgitconfig
+/ZQM-SMS.iml
+/.ZQM-SMS.iml
+/src/main/main.iml
+/src/test/test.iml
+/strategy-files
+*.class
+*.orig

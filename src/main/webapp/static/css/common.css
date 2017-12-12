@@ -1,0 +1,90 @@
+.autowrap, .autowrap td{
+    word-break: break-all;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-image: url(../images/backgroundtexture.png);
+}
+.div{margin: 0 auto;width: 60%;}
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+div.slide img {
+    width: 100%;
+    height: auto;
+    -webkit-box-shadow: 0 1px 1px #c1c1c1;
+    -moz-box-shadow: 0 1px 1px #c1c1c1;
+    box-shadow: 0 1px 1px #c1c1c1;
+    border-radius: 15px;
+}
+
+.item {
+    border-radius: 15px;
+    width: 180px;
+    height: 185px;
+    background-color: #FFF;
+    margin: 10px;
+    float: left;
+    -webkit-box-shadow: 0 1px 3px #c3c3c3;
+    -moz-box-shadow: 0 1px 3px #c3c3c3;
+    box-shadow: 0 1px 3px #c3c3c3;
+    overflow: hidden;
+    -webkit-transition: box-shadow 0.2s ease-in-out;
+    -moz-transition: box-shadow 0.2s ease-in-out;
+    -o-transition: box-shadow 0.2s ease-in-out;
+    -ms-transition: box-shadow 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-box-shadow: 0 2px 1px #c3c3c3;
+    -moz-box-shadow: 0 2px 1px #c3c3c3;
+    box-shadow: 0 2px 1px #c3c3c3;
+    border-radius: 15px 15px 0 0;
+    opacity: 0.8;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
+.item2{
+    left:220px;
+    position:absolute;
+    bottom: 0;
+}
+.item2 h3 {
+
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    font-size: 105%;
+    font-weight: normal;
+    padding: 5px 0 0 8px;
+    color: #2d2d2d;
+    text-decoration: none;
+}
+.item2 p {
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    font-size: 90%;
+    font-weight: normal;
+    padding: 0 0 0 8px;
+    color: #f38094;
+    text-decoration: none;
+}
+
+.next{
+    position:fixed;
+    top:100px;
+    left: 1100px;
+}

@@ -1,0 +1,106 @@
+<style type="text/css">
+.staticPageList table a{color:#028BEB; margin:0 5px;}
+</style>
+<div class="pageHeader">
+	<form id="pagerForm" onsubmit="return navTabSearch(this);" action="/account/debtDetailsQuery" method="post"
+		  class="pageForm required-validate" onsubmit="return submitForm(this)">
+		<input type="hidden" name="page" value="${page}"/>
+		<input type="hidden" name="numPerPage" value="${numPerPage}"/>
+		<div class="searchBar">
+			<div class="searchItem">
+				<ul>
+
+					<li class="line">
+						<label>标的名称:</label>
+									<input class="required textInput" name="bill.name" type="text" postfield="keyword" suggestfields="orgNum,orgName"
+										   suggesturl="" lookupgroup="org1" autocomplete="off" readonly value="${name}">
+									<input type="hidden" name="bill.id" id="bill.id" type="text" maxlength="60"
+											 value='${id}' />
+									<a class="btnLook" href="/account/debtDetailsQueryProductList" lookupgroup="bill" style="float: right;!important">查找带回</a>
+
+					</li>
+					<li><label>开始时间：</label>
+						<input type="text" name="startTime" class="date textInput valid required" datefmt="yyyyMMdd" mindate="2000-01-01" maxdate="2020-12-31" value="${startTime}">
+					</li>
+					<li><label>结束时间：</label>
+						<input type="text" name="endTime" class="date textInput valid required" datefmt="yyyyMMdd" mindate="2000-01-01" maxdate="2020-12-31" value="${endTime}">
+					</li>
+					<li>
+						<div class="buttonContent"></div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="submit">查询</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="pageContent staticPageList">
+	<#if result ??  && (result?size > 0)>	
+	<div id="w_list_print">
+	<table class="list autowrap"   width="100%" layoutH="115">
+		<thead>
+			<tr>
+				<th >标的号</th>
+				<th >募集日</th>
+				<th >募集结束日期</th>
+				<th >付息方式</th>
+				<th>利息每月支付日</th>
+				<th >借款期限</th>
+				<th >交易金额</th>
+				<th >年化利率</th>
+				<th >平台手续费</th>
+				<th >起息日</th>
+				<th >募集金额</th>
+				<th >已还金额</th>
+				<th >已还利息</th>
+				<th >状态</th>	
+			</tr>
+		</thead>
+		<tbody>
+			<#list result as obj>
+			<tr target="staticPageId" rel="${obj.productId}">
+				<td>${obj.productId}</td>
+				<td>${obj.raiseDate}</td>
+				<td>${obj.raiseEndDate}</td>
+				<td>
+				<#if obj.intType==0>到期还本付息
+				<#elseif obj.intType==1 >定期付息
+				<#else>不定期付息</#if>
+</td>
+				<td>
+				<#if obj.intPayDay!=null>${obj.intPayDay}
+				<#else>--</#if>
+				</td>
+				<td>${obj.duration}</td>
+				<td>${obj.txAmount}</td>
+				<td>${obj.rate}</td>
+				<td>${obj.fee}</td>
+				<td>${obj.intDate}</td>
+				<td>${obj.raiseAmount}</td>
+				<td>${obj.repaymentAmt}</td>
+				<td>${obj.repaymentInt}</td>
+				<td>
+				<#if obj.state==1>投标中
+				<#elseif obj.state==2 >计息中
+				<#elseif obj.state==3 >到期待返还
+				<#elseif obj.state==4 >本息已返还
+				<#elseif obj.state==8 >审核中
+				<#elseif obj.state==9 >已撤销
+				<#else>不定期付息</#if>
+				</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	</div>
+	<#include "/common/pagination.htm"/>
+		 <#else>
+                 <br>   暂无数据
+				</#if>
+</div>

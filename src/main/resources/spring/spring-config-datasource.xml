@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/jdbc
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+           
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${db.bbs.url}"/>
+        <property name="username" value="${db.bbs.username}"/>
+        <property name="password" value="${db.bbs.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="2"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxActive" value="${db.bbs.maxPoolSize}"/>
+        <!-- 配置获取连接等待超时的时间 --> 
+        <property name="maxWait" value="60000"/>
+        
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --> 
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --> 
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        
+        <!-- 这里建议配置为true，防止取到的连接不可用 --> 
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="false"/>
+        
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 --> 
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+        
+        <!-- 获取数据库连接的时候执行sql:set names utf8mb4； -->
+        <property name="connectionInitSqls" value="set names utf8mb4 ;"/>
+        
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
+        <!-- 配置关闭长时间不使用的连接 -->
+        <!-- 是否清理removeAbandonedTimeout秒没有使用的活动连接,清理后并没有放回连接池(针对未被close的活动连接) -->
+        <property name="removeAbandoned" value="true"/>
+        <!-- 活动连接的最大空闲时间,1800秒，也就是30分钟 -->
+        <property name="removeAbandonedTimeout" value="1800"/>
+        <!-- 连接池收回空闲的活动连接时是否打印消息 -->
+        <property name="logAbandoned" value="true"/>
+    </bean>	
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+       <!--   <property name="typeAliasesPackage" value="com.code.model,com.llh.base.domain" />-->
+         <property name="typeAliasesPackage" value="com.code.model" />
+        <!-- mapper and resultmap path -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:mapper/**/*.xml</value>
+			</list>
+        </property>
+		<property name="plugins">
+		    <array>
+		      <bean class="com.github.pagehelper.PageHelper">
+		        <property name="properties">
+		          <value>
+		            dialect=mysql
+		          </value>
+		        </property>
+		      </bean>
+		    </array>
+		</property>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.code.dao.mapper" />
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	
+</beans>

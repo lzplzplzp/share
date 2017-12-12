@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.code.dao.mapper.SysConfMapper" >
+  <resultMap id="BaseResultMap" type="com.code.model.SysConf" >
+    <id column="attr" property="attr" jdbcType="VARCHAR" />
+    <result column="val" property="val" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="val_list" property="valList" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    attr, val, type, val_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from xjn_sys_conf
+    where attr = #{attr,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from xjn_sys_conf
+    where attr = #{attr,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.code.model.SysConf" >
+    insert into xjn_sys_conf (attr, val, type, 
+      val_list)
+    values (#{attr,jdbcType=VARCHAR}, #{val,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{valList,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.SysConf" >
+    insert into xjn_sys_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="attr != null" >
+        attr,
+      </if>
+      <if test="val != null" >
+        val,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="valList != null" >
+        val_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="attr != null" >
+        #{attr,jdbcType=VARCHAR},
+      </if>
+      <if test="val != null" >
+        #{val,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="valList != null" >
+        #{valList,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.SysConf" >
+    update xjn_sys_conf
+    <set >
+      <if test="val != null" >
+        val = #{val,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="valList != null" >
+        val_list = #{valList,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where attr = #{attr,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.SysConf" >
+    update xjn_sys_conf
+    set val = #{val,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      val_list = #{valList,jdbcType=VARCHAR}
+    where attr = #{attr,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from xjn_sys_conf
+  </select>
+
+  <update id="addQiShu" parameterType="java.lang.String">
+    UPDATE xjn_sys_conf
+    set val = val + 1
+    where attr = #{attr,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

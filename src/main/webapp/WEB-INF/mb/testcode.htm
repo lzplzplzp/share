@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <#include "/common/common_html_meat.htm"/>
+    <#include "/common/common.htm"/>
+
+    <style type="text/css">
+        .f {
+            font-size: 12px;
+            font-family: serif;
+            color: red;
+        }
+
+        .len {
+            width: 160px;
+        }
+    </style>
+    <script type="text/javascript"
+            src="/resource/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#username").focus();
+
+            if (top.location != self.location) {
+                top.location = self.location;
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        var mobileReg =/^(13[0-9]|147|145|15[0-9]|(17[0])|(17[7])|18[0-9])[0-9]{8}$/;
+
+        <#if loginMobileOpen?exists && loginMobileOpen == '1'>
+        function sendPhone(){
+            var account =  $('#phone').val();
+            if(account == '') {
+                $('#account').focus();
+                alert("手机号码不能为空");
+                return;
+            }
+            if (account.search(mobileReg)<0) {
+                $('#account').focus();
+                alert("手机号码格式不正确");
+                return;
+            }
+            $("#codeButton").attr('disabled', 'disabled');
+
+            $.ajax({
+                url: "${contextPath}/sendPhone",
+                type: 'post',
+                dataType: 'json',
+                data:{account:account},
+                success: function(data){
+                    alert(data.msg);
+                    if(data.flag){
+                        onSendAuthCodeSuccess();
+                    }else{
+                        $("#codeButton").removeAttr('disabled', 'disabled');
+
+                    }
+
+                }
+            });
+        }
+
+            var sec = 60;
+        var wait = sec * 1000;
+
+        function onSendAuthCodeSuccess() {
+            $("#codeButton").val(sec + "秒后可重新发送");
+            $("#codeButton").attr('disabled', 'disabled');
+            $("#codeButton").addClass('after');
+            for(var i = 0; i <= sec; i++) {
+                window.setTimeout("TimeUpdate(" + i + ")", i * 1000);
+            }
+            window.setTimeout("TimeOk()", wait);
+        }
+
+        function TimeUpdate(num) {
+            if(num != sec) {
+                var pntNum = (wait / 1000) - num;
+                $("#codeButton").val(pntNum + "秒后可重新发送");
+            }
+        }
+
+        function TimeOk() {
+            $("#codeButton").val("免费获取校验码");
+            $("#codeButton").removeAttr('disabled', 'disabled');
+            $("#codeButton").removeClass('after');
+        }
+        </#if>
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+
+        <div class="span5">
+            <div style="margin-top: 100px;text-align: right;margin-right: 10px;">
+                <img data-src="holder.js/240x240" class="img-circle" alt="240x240" src="${base}/static/images/logo.png"
+                     style="width: 240px; height: 240px;">
+            </div>
+        </div>
+
+        <div class="span7" style="border-left: 1px solid #ccc;margin-left: -2px;">
+            <table class="table table-bordered" style="width: 95%;margin-top: 100px;float: right;">
+                <caption>
+                    <#if hint??>
+                        <div class="alert alert-warning alert-dismissable" style="margin-bottom:0px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <strong>${hint}</strong>
+                        </div>
+                    </#if>
+                </caption>
+                <tr>
+                    <td colspan="1"
+                        style="background-color: #dff0d8; text-align: center;"><strong>
+                        &nbsp;为了您使用流畅,请使用Chrome浏览器</strong>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="background-color: #dff0d8; text-align: center;"><strong>&nbsp;共享淘</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <form id="jvForm" action="/" method="post" class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label" for="inputEmail">帐号</label>
+
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-user"></i></span>
+                                        <input type="text" id="phone" name="phone" value="${phone}" maxlength="50" class="len"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">密码</label>
+
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-lock"></i></span>
+                                        <input name="passWord" type="password" id="passWord" maxlength="20"
+                                               class="len"/>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="control-group">
+                                <label class="control-label" for="inputPassword">图形验证码</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-lock"></i></span>
+                                        <input name="imageCode" type="text" placeholder="请输入图形验证码" id="captcha" maxlength="6"  class="len"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                        <img src="${base}/captcha.svl" align="bottom" id="changeCaptcha" style="cursor:pointer;" title="看不清可单击图片刷新" onclick="this.src='${base}/captcha.svl?d='+new Date()"/>
+                                     <a href="javascript:void(0)" onclick="jQuery('#changeCaptcha').click();">换一张</a>
+                                </div>
+                            </div>
+                            <#if loginMobileOpen?exists && loginMobileOpen == '1'>
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">手机验证码</label>
+
+                                    <div class="controls">
+                                        <div class="input-prepend">
+                                            <span class="add-on"><i class="icon-lock"></i></span>
+                                            <input name="captcha" type="text" id="captcha" placeholder="请输入手机验证码" maxlength="6" class="len"/>
+                                            <input id="codeButton" type="button" onclick="javascript:sendPhone();"
+                                                   value="发送手机验证码"
+                                                   style='background:url(/static/images/bt1.jpg);width:120px;height:24px;border:0px;cursor:pointer;font-size:12px'/>
+                                        </div>
+                                    </div>
+                                </div>
+                           </#if>
+
+                           
+                        
+                            <div class="control-group">
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-hand-right"></i></span>
+                                        <input type="submit" value="登录" class="btn"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">网站信息 京ICP备17037104号
+                        共享淘 © 2017 ALL RIGHT RESERVRED
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

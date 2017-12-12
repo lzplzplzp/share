@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>共享淘</title>
+    <base id="base" href="${base}">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="${base}/static/css/common.css?${version}" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="${base}/static/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="${base}/static/images/icon/index.ico" type="image/x-icon" ></link>
+
+</head>
+
+<body>
+<div>
+    <div class="div">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#">Home</a></li>
+        </ul>
+    </div>
+    <div class="div">
+        <input type="text" id="search" value=""  class="form-control"/>
+    </div>
+    <div class="div">
+        <hr class="style-two">
+    </div>
+    <div class="slide div">
+        <img src="${base}/static/images/sliderimage1.jpg"  height="783" alt="image 1"><!-- Replace these images with your own but make sure they are 3000px wide and 783px high or the same ration -->
+    </div>
+    <div class="div">
+        <ul class="list-group" id="goodsList">
+            <#list result as obj>
+                <li class="list-group-item">
+                    <div class="item">
+                        <a href="${obj.item_url}">
+                            <img class="img" src="${obj.pict_url}" alt="image 1">
+                        </a>
+                    </div>
+                    <div class="item2">
+                        <h3>${obj.title}</h3><!--Title-->
+                        <p><s>￥${obj.reserve_price}</s> ￥${obj.zk_final_price}</p><!--Category-->
+                    </div>
+                </li>
+            </#list>
+        </ul>
+
+    </div>
+    <div colspan="2" style="text-align: center;">网站信息 京ICP备17037104号
+        共享淘 © 2017 ALL RIGHT RESERVRED
+    </div>
+</div>
+<div class="next">
+    <button type="button" class="btn btn-info" id="next">换一批</button>
+</div>
+<script>
+    var str="";
+    var page =1;
+    $(function (){
+        $('#search').keydown(function(e){
+            if(e.keyCode==13){
+                str=$("#search").val();
+                search($("#search").val(),page);
+            }
+        });
+        $("#next").onclick(function(){
+            var searchStr;
+            if($("#search").val()){
+                searchStr=$("#search").val();
+                if(str==searchStr){
+                    page=page+1;
+                }else{
+                    page=1;
+                }
+            }
+            search(searchStr,page);
+        })
+    });
+    function search(obj,page){
+        $.ajax({
+            url: "/search",
+            data: {searchVal:obj,page:page},
+            cache: false,
+            success: function(result) {
+                $("#goodsList").empty();
+
+                if(result.data){
+                    for(var i=0;i < result.data.length;i++){
+                        var item =result.data[i];
+                        var li='<li class="list-group-item">\n' +
+                            '                    <div class="item">\n' +
+                            '                        <a href="'+item.item_url+'">\n' +
+                            '                            <img class="img" src="'+item.pict_url+'" alt="image 1">\n' +
+                            '                        </a>\n' +
+                            '                    </div>\n' +
+                            '                    <div class="item2">\n' +
+                            '                        <h3>'+item.title+'</h3>\n' +
+                            '                        <p><s>￥'+item.reserve_price+'</s> ￥'+item.zk_final_price+'</p>\n' +
+                            '                    </div>\n' +
+                            '                </li>';
+                        $("#goodsList").append(li);
+                    }
+
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#tip_excelUrl").html("操作失败，请检查网络后重试");
+            }
+        });
+    }
+</script>
+<#include "/common/footer.htm"/>

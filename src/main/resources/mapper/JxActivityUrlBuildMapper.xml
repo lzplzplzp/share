@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.dao.mapper.JxActivityUrlBuildMapper">
+  <resultMap id="BaseResultMap" type="com.code.model.JxActivityUrlBuild">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="file_old_name" jdbcType="VARCHAR" property="fileOldName" />
+    <result column="file_new_name" jdbcType="VARCHAR" property="fileNewName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="buile_file_name" jdbcType="VARCHAR" property="buileFileName" />
+    <result column="buile_file_path" jdbcType="VARCHAR" property="buileFilePath" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cuser_id" jdbcType="INTEGER" property="cuserId" />
+    <result column="cuser_name" jdbcType="VARCHAR" property="cuserName" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="batch_num" jdbcType="TINYINT" property="batchNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, file_old_name, file_new_name, file_path, buile_file_name, buile_file_path, status, 
+    cuser_id, cuser_name, ctime, is_del, activity_id, batch_num
+  </sql>
+  <select id="selectByExample" parameterType="com.code.model.JxActivityUrlBuildExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jx_activity_url_build
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jx_activity_url_build
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jx_activity_url_build
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.code.model.JxActivityUrlBuildExample">
+    delete from jx_activity_url_build
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.code.model.JxActivityUrlBuildExample">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_activity_url_build (file_old_name, file_new_name, file_path, 
+      buile_file_name, buile_file_path, status, 
+      cuser_id, cuser_name, ctime, 
+      is_del, activity_id, batch_num
+      )
+    values (#{fileOldName,jdbcType=VARCHAR}, #{fileNewName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{buileFileName,jdbcType=VARCHAR}, #{buileFilePath,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{cuserId,jdbcType=INTEGER}, #{cuserName,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{isDel,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{batchNum,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.code.model.JxActivityUrlBuildExample">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jx_activity_url_build
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileOldName != null">
+        file_old_name,
+      </if>
+      <if test="fileNewName != null">
+        file_new_name,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="buileFileName != null">
+        buile_file_name,
+      </if>
+      <if test="buileFilePath != null">
+        buile_file_path,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="cuserId != null">
+        cuser_id,
+      </if>
+      <if test="cuserName != null">
+        cuser_name,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="batchNum != null">
+        batch_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileOldName != null">
+        #{fileOldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNewName != null">
+        #{fileNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="buileFileName != null">
+        #{buileFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="buileFilePath != null">
+        #{buileFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cuserId != null">
+        #{cuserId,jdbcType=INTEGER},
+      </if>
+      <if test="cuserName != null">
+        #{cuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="batchNum != null">
+        #{batchNum,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.code.model.JxActivityUrlBuildExample" resultType="java.lang.Long">
+    select count(*) from jx_activity_url_build
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jx_activity_url_build
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileOldName != null">
+        file_old_name = #{record.fileOldName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileNewName != null">
+        file_new_name = #{record.fileNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buileFileName != null">
+        buile_file_name = #{record.buileFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buileFilePath != null">
+        buile_file_path = #{record.buileFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.cuserId != null">
+        cuser_id = #{record.cuserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cuserName != null">
+        cuser_name = #{record.cuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchNum != null">
+        batch_num = #{record.batchNum,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jx_activity_url_build
+    set id = #{record.id,jdbcType=INTEGER},
+      file_old_name = #{record.fileOldName,jdbcType=VARCHAR},
+      file_new_name = #{record.fileNewName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      buile_file_name = #{record.buileFileName,jdbcType=VARCHAR},
+      buile_file_path = #{record.buileFilePath,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      cuser_id = #{record.cuserId,jdbcType=INTEGER},
+      cuser_name = #{record.cuserName,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      is_del = #{record.isDel,jdbcType=INTEGER},
+      activity_id = #{record.activityId,jdbcType=INTEGER},
+      batch_num = #{record.batchNum,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.code.model.JxActivityUrlBuildExample">
+    update jx_activity_url_build
+    <set>
+      <if test="fileOldName != null">
+        file_old_name = #{fileOldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNewName != null">
+        file_new_name = #{fileNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="buileFileName != null">
+        buile_file_name = #{buileFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="buileFilePath != null">
+        buile_file_path = #{buileFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cuserId != null">
+        cuser_id = #{cuserId,jdbcType=INTEGER},
+      </if>
+      <if test="cuserName != null">
+        cuser_name = #{cuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="batchNum != null">
+        batch_num = #{batchNum,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.code.model.JxActivityUrlBuildExample">
+    update jx_activity_url_build
+    set file_old_name = #{fileOldName,jdbcType=VARCHAR},
+      file_new_name = #{fileNewName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      buile_file_name = #{buileFileName,jdbcType=VARCHAR},
+      buile_file_path = #{buileFilePath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cuser_id = #{cuserId,jdbcType=INTEGER},
+      cuser_name = #{cuserName,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=INTEGER},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      batch_num = #{batchNum,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据条件查询可下载文件记录  -->
+  <select id="getLinkExcelList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM `jx_activity_url_build`
+    <trim prefix="where" prefixOverrides="and">
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER}
+      </if>
+      <if test="batchNum != null">
+        AND batch_num = #{batchNum,jdbcType=INTEGER}
+      </if>
+    </trim>
+    ORDER BY id DESC
+    <if test="page != null">
+      LIMIT #{page},#{numPerPage}
+    </if>
+  </select>
+
+  <!-- 根据条件查询对应总条数 -->
+  <select id="getTotalRows" resultType="java.lang.Long">
+    SELECT COUNT(id)
+    FROM `jx_activity_url_build`
+    <trim prefix="where" prefixOverrides="and">
+      <if test="activityId != null">
+        AND activity_id = #{activityId,jdbcType=INTEGER}
+      </if>
+      <if test="batchId != null">
+        AND batch_num = #{batchNum,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+
+  <!-- 查询某活动的最大批次号记录  -->
+  <select id="selectMaxBatchNum" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM `jx_activity_url_build`
+    <trim prefix="where" prefixOverrides="and">
+      batch_num = (select max(b.batch_num) from jx_activity_url_build as b where b.activity_id=#{activityId,jdbcType=INTEGER} )
+      AND  activity_id=#{activityId,jdbcType=INTEGER}
+    </trim>
+  </select>
+</mapper>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <#include "/common/common_html_meat.htm"/>
+    <style type="text/css">
+        .menu a.cur, .menu a:hover {
+            background: red;
+        }
+    </style>
+
+</head>
+<body>
+<ul>
+    <li>
+        <span>管理</span>
+        <ul class="menu">
+            <li>
+                <span><a href="/merchent/list" target="rightFrame">保险管理</a></span>
+            </li>
+            <li>
+                <span><a href="/merchants/list" target="rightFrame">门店管理</a></span>
+            </li>
+            <li>
+                <span><a href="/service/packages/list" target="rightFrame">套餐管理</a></span>
+            </li>
+            <li>
+                <span><a href="/service/items/list" target="rightFrame">套餐项管理</a></span>
+            </li>
+            <li>
+                <span><a href="/order/list" target="rightFrame">订单管理</a></span>
+            </li>
+            <li>
+                <span><a href="/user/list" target="rightFrame">用户管理</a></span>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <span>管理员管理</span>
+        <ul>
+            <li>
+                <span><a href="/change/pwd" target="rightFrame">修改密码</a></span>
+            </li>
+            <li>
+                <span><a href="#" onclick="a()">退出登录</a></span>
+            </li>
+        </ul>
+    </li>
+
+
+</ul>
+<script type="text/javascript">
+    var authors = $('.menu').find('a'), temp;
+    authors.click(function () {
+        $('.menu').find('a').removeClass('cur');
+        $(this).addClass('cur');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<#if user.isAdmin ==1>
+					 <li><label>城市：</label>
+	                    <select name="city" id="city">
+	                        <option value="">全部</option>
+<#include "/common/city_choice.htm"/>
+	                    </select>
+	                </li>
+<#elseif user.isAdmin ==2> 
+					 <li><label>城市：</label>
+	                    <select name="city" id="city">
+	                        <option value="">全部</option>
+<#list citys as tempCity>
+<option value="${tempCity}"  <#if city !=null && city==tempCity> selected</#if>  >${tempCity} </option>
+</#list>
+	                    </select>
+	                </li>
+</#if>

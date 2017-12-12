@@ -1,0 +1,58 @@
+<!-- 分页标签 -->
+<#if pageInfo?? && (pageInfo.totalPage>=2) > 
+<style type="text/css">.learin-page{margin-top:10%;text-align:right;}.learin-page li{display:inline;border: 1px solid #f5f5f5; padding:5px 15px; margin: 0 0.5%;border-radius: 3px}.learin-page a{color:#8b909b;}.learin-page li:hover{background-color: #ECEDEF;}.learin-page a:hover{color: #000}</style>
+<ul class="learin-page">
+<#assign toPageUrl=pageInfo.toUrl >
+<#if (toPageUrl?index_of("?") gt 0)>
+
+<#assign toPageUrl=toPageUrl+"&pageNo=">
+<#else>
+<#assign toPageUrl=toPageUrl+"?pageNo=">
+</#if>
+<#if (pageInfo.currentPage>1)>
+<li class="prev"> <a href="${toPageUrl}${pageInfo.currentPage - 1} " >上一页</a></li>
+</#if>
+<#if (pageInfo.currentPage<7)>
+	<#assign forbegin=2>
+	<#assign forend=7>
+<#elseif  (pageInfo.currentPage >=7 ) >
+<#assign forbegin=pageInfo.currentPage-6>
+<#assign forend=pageInfo.currentPage >
+<#else>
+<#assign forbegin=pageInfo.currentPage-3>
+<#assign forend=pageInfo.currentPage+3>
+
+</#if>
+	
+	<#if (pageInfo.currentPage==1)>
+		 <li class="current"  style="background-color: #ccc"><a href="#">1</a></li>
+		<#else>
+		<li><a href="${toPageUrl}1"  >1</a></li>
+	</#if>
+ 	<#list forbegin..forend as i>
+		<#if (i>1) && (i<pageInfo.totalPage)> 
+		<#if (pageInfo.currentPage==i)>
+		 <li class="current"  style="background-color: #ccc"><a href="#">${i}</a></li>
+		<#else>
+		<li><a href="${toPageUrl}${i}"  >${i}</a></li>
+		</#if>
+		</#if>
+	</#list>
+	<#if (pageInfo.currentPage==pageInfo.totalPage)>
+	
+
+	
+		 <li class="current"  style="background-color: #ccc"><a href="#">${pageInfo.totalPage}</a></li>
+		<#else>
+		<li><a href="${toPageUrl}${pageInfo.totalPage}"  >${pageInfo.totalPage}</a></li>
+	</#if>	
+ 	<#if (pageInfo.currentPage<pageInfo.totalPage)>
+		<li class="next"><a href="${toPageUrl}${pageInfo.currentPage + 1}" >下一页</a></li> 
+	</#if>
+	<div style="clear:both"></div>
+</ul>
+</#if>
+
+
+
+

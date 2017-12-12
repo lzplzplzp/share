@@ -1,0 +1,18 @@
+<!--
+@author 飞车
+用于dialog弹出层页面的分页
+-->
+<div class="panelBar">
+    <div class="pages">
+           <span>显示</span>
+        <select class="combox" name="numPerPage" onchange="dialogPageBreak({numPerPage:this.value})">
+            <option value="10"<#if numPerPage == 10> selected</#if>>10</option>
+            <option value="15"<#if numPerPage == 15> selected</#if>>15</option>
+            <option value="20"<#if numPerPage == 20> selected</#if>>20</option>
+            <option value="30"<#if numPerPage == 30> selected</#if>>30</option>
+            <option value="50"<#if numPerPage == 50> selected</#if>>50</option>
+        </select>
+        <span>共${totalRows}条</span>
+    </div>
+    <div class="pagination" targetType="dialog" totalCount="${totalRows}" numPerPage="${numPerPage}" pageNumShown="10" currentPage="${page}"></div>
+</div>
