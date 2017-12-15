@@ -474,39 +474,16 @@
       </build>
     </profile>
     <profile>
-      <id>backprod</id>
+      <id>pro</id>
       <build>
         <resources>
           <resource>
-            <directory>${profiles.dir}/backprod</directory>
+            <directory>src/main/profiles/pro</directory>
             <filtering>true</filtering>
           </resource>
         </resources>
       </build>
     </profile>
-    <profile>
-      <id>sit</id>
-      <build>
-        <resources>
-          <resource>
-            <directory>${profiles.dir}/sit</directory>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-    </profile>
-    <profile>
-      <id>sit251</id>
-      <build>
-        <resources>
-          <resource>
-            <directory>${profiles.dir}/sit251</directory>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-    </profile>
-
 
   </profiles>
   <!-- 私服-->
